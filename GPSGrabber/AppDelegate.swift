@@ -9,26 +9,24 @@
 import UIKit
 import GoogleMaps
 import AWSCore
+import AWSCognito
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var databaseManager = DatabaseManager()
+    var dataManager = DataManager()
+    var reachability: AWSKSReachability!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        // google
         GMSServices.provideAPIKey("AIzaSyCqdO8rNETPFysAp18baxr8EckWAYc33SA")
-        
-        let credentialsProvider = AWSCognitoCredentialsProvider(
-            regionType: .euCentral1,
-            identityPoolId: "262823375473")
-        
-        let configuration = AWSServiceConfiguration(
-            region: .euCentral1,
-            credentialsProvider: credentialsProvider)
-        
+        // amazon
+        let credentialsProvider = AWSCognitoCredentialsProvider(regionType: .euCentral1, identityPoolId:"eu-central-1:cea63a1d-de3f-4dca-bf03-af4c80162a3d")
+        let configuration = AWSServiceConfiguration(region: .euCentral1, credentialsProvider:credentialsProvider)
         AWSServiceManager.default().defaultServiceConfiguration = configuration
-        
+        reachabilitySetup()
+        // internal settings set
         registerSettingBundle()
         return true
     }
@@ -37,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        databaseManager.saveContext()
+        dataManager.saveContext()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -48,10 +46,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        databaseManager.saveContext()
+        dataManager.saveContext()
     }
 
     func registerSettingBundle() {
+        
         let pathStr = Bundle.main.bundlePath
         let settingsBundlePath = pathStr.appending("/Settings.bundle")
         let finalPath = settingsBundlePath.appending("/Root.plist")
@@ -68,6 +67,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         UserDefaults.standard.register(defaults: defaults)
+    }
+    
+    func reachabilitySetup() {
+       
+        self.reachability = AWSKSReachability.toInternet()
+        self.reachability.onReachabilityChanged = { reachabile in
+           
+            print(self.reachability.reachable)
+        }
     }
 }
 

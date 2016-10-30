@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 import MapKit
 import GoogleMaps
-import CoreData
 
 final class ViewController: UIViewController {
 
@@ -19,6 +18,7 @@ final class ViewController: UIViewController {
     @IBOutlet var contentView: UIView!
     
     private lazy var locationManager: CLLocationManager = {
+       
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.delegate = self
@@ -26,31 +26,22 @@ final class ViewController: UIViewController {
         return manager
     }()
 
-    func saveToCacheLocation(coordinate: CLLocationCoordinate2D) {
-        DispatchQueue.global(qos: .background).async {
-            let app = UIApplication.shared.delegate as! AppDelegate
-            let managerContext = app.databaseManager.persistentContainer.viewContext
-            let point = LocationPoint(context: managerContext)
-            point.lat = Float(coordinate.latitude)
-            point.lon = Float(coordinate.longitude)
-            point.dateTime = NSDate(timeIntervalSinceNow: 0)
-            dump(point)
-            managerContext.insert(point)
-        }
-    }
+    
     
     @IBAction func enabledChanged(_ sender: UISwitch) {
+       
         if sender.isOn {
             self.configureLocationManagger()
             self.locationManager.startUpdatingLocation()
             self.mapView.animate(toZoom: 16)
         } else {
             self.locationManager.stopUpdatingLocation()
-            (UIApplication.shared.delegate as! AppDelegate).databaseManager.saveContext()
+            (UIApplication.shared.delegate as! AppDelegate).dataManager.saveContext()
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         super.viewDidAppear(animated)
         self.checkLocatiomAuthorizedAccess()
     }
@@ -98,6 +89,7 @@ final class ViewController: UIViewController {
     }
     
     @IBAction func goToSettings() {
+        
         UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
     }
 }
@@ -105,6 +97,7 @@ final class ViewController: UIViewController {
 extension ViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+       
         guard let mostRecentLocation = locations.last else {
             return
         }
@@ -114,13 +107,13 @@ extension ViewController: CLLocationManagerDelegate {
         
         if UIApplication.shared.applicationState == .active {
             self.mapView.animate(toLocation: mostRecentLocation.coordinate)
-        } else {
-            print("App is backgrounded. New location is %@", mostRecentLocation)
-            self.saveToCacheLocation(coordinate: mostRecentLocation.coordinate)
         }
+        let app = UIApplication.shared.delegate as! AppDelegate
+        app.dataManager.saveToCacheLocation(coordinate: mostRecentLocation.coordinate)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
         self.checkLocatiomAuthorizedAccess()
     }
 }

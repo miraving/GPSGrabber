@@ -13,6 +13,7 @@ import CoreData
 extension LocationPoint {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<LocationPoint> {
+        
         return NSFetchRequest<LocationPoint>(entityName: "LocationPoint");
     }
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6FC929394191B723EC156137 /* Pods_GPSGrabber.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99736068CE08AF1F1F5B6BBF /* Pods_GPSGrabber.framework */; };
 		900050D81DC297630027C5A9 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900050D71DC297630027C5A9 /* ViewController2.swift */; };
+		908D52071DC67E6A007214CE /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E078831DC28EAB008D5768 /* DataManager.swift */; };
 		90E078691DC1F09D008D5768 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E078681DC1F09D008D5768 /* AppDelegate.swift */; };
 		90E0786B1DC1F09D008D5768 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E0786A1DC1F09D008D5768 /* ViewController.swift */; };
 		90E0786E1DC1F09D008D5768 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90E0786C1DC1F09D008D5768 /* Main.storyboard */; };
@@ -18,7 +19,6 @@
 		90E0787E1DC21D72008D5768 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 90E0787D1DC21D72008D5768 /* Settings.bundle */; };
 		90E078811DC22851008D5768 /* LocationPoint+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E0787F1DC22851008D5768 /* LocationPoint+CoreDataClass.swift */; };
 		90E078821DC22851008D5768 /* LocationPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E078801DC22851008D5768 /* LocationPoint+CoreDataProperties.swift */; };
-		90E078841DC28EAB008D5768 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E078831DC28EAB008D5768 /* DatabaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +36,7 @@
 		90E0787D1DC21D72008D5768 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		90E0787F1DC22851008D5768 /* LocationPoint+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationPoint+CoreDataClass.swift"; sourceTree = "<group>"; };
 		90E078801DC22851008D5768 /* LocationPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		90E078831DC28EAB008D5768 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		90E078831DC28EAB008D5768 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		99736068CE08AF1F1F5B6BBF /* Pods_GPSGrabber.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GPSGrabber.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -82,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				90E078681DC1F09D008D5768 /* AppDelegate.swift */,
-				90E078831DC28EAB008D5768 /* DatabaseManager.swift */,
+				90E078831DC28EAB008D5768 /* DataManager.swift */,
 				90E078721DC1F09D008D5768 /* Assets.xcassets */,
 				90E0786F1DC1F09D008D5768 /* GPSGrabber.xcdatamodeld */,
 				90E078771DC1F09D008D5768 /* Info.plist */,
@@ -239,7 +239,7 @@
 				900050D81DC297630027C5A9 /* ViewController2.swift in Sources */,
 				90E0786B1DC1F09D008D5768 /* ViewController.swift in Sources */,
 				90E078821DC22851008D5768 /* LocationPoint+CoreDataProperties.swift in Sources */,
-				90E078841DC28EAB008D5768 /* DatabaseManager.swift in Sources */,
+				908D52071DC67E6A007214CE /* DataManager.swift in Sources */,
 				90E078811DC22851008D5768 /* LocationPoint+CoreDataClass.swift in Sources */,
 				90E078691DC1F09D008D5768 /* AppDelegate.swift in Sources */,
 				90E078711DC1F09D008D5768 /* GPSGrabber.xcdatamodeld in Sources */,
