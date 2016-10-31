@@ -17,6 +17,7 @@ class ViewController2: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.frController?.delegate = self
         
         let app = UIApplication.shared.delegate as! AppDelegate
         let context = app.dataManager.persistentContainer.viewContext
@@ -35,6 +36,12 @@ class ViewController2: UITableViewController {
         }
     }
 
+    @IBAction func uploadCache() {
+        
+        let app = UIApplication.shared.delegate as! AppDelegate
+        app.dataManager.uploadCache()
+    }
+    
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -51,5 +58,21 @@ class ViewController2: UITableViewController {
         }
         
         return cell
+    }
+}
+
+extension ViewController2: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        self.tableView.reloadData()
     }
 }

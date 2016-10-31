@@ -179,7 +179,11 @@ to your location data</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Cached data" id="ENy-7i-x96">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="gAJ-pc-2rs"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="gAJ-pc-2rs">
+                            <connections>
+                                <action selector="uploadCache" destination="Dr3-3z-bCy" id="Dwd-Lj-niT"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mmy-ZA-ctL" userLabel="First Responder" sceneMemberID="firstResponder"/>

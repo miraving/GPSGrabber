@@ -39,6 +39,34 @@ class DataManager {
         }
     }
     
+    func uploadCache() {
+        DispatchQueue.global(qos: .background).async {
+            
+            let context = self.persistentContainer.viewContext
+            let fetch: NSFetchRequest<LocationPoint> = LocationPoint.fetchRequest()
+            var objects: [LocationPoint] = []
+            do {
+                objects = try context.fetch(fetch)
+            } catch {
+                print("smth wrong")
+            }
+            
+            if objects.count > 0 {
+                
+                for point in objects {
+                    
+                    let coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(point.lat),
+                                                            longitude: CLLocationDegrees(point.lon))
+                    self.saveDataToCognito(value: coordinate, dateTime: point.dateTime as! Date, completionBlock: {
+                        // rem cache item
+                        context.delete(point)
+                        self.saveContext()
+                    })
+                }
+            }
+        }
+    }
+    
     func saveToCacheLocation(coordinate: CLLocationCoordinate2D) {
         
         DispatchQueue.global(qos: .background).async {
@@ -62,14 +90,14 @@ class DataManager {
         }
     }
     
-    private func saveDataToCognito(value: CLLocationCoordinate2D) {
+    private func saveDataToCognito(value: CLLocationCoordinate2D, dateTime: Date = Date(), completionBlock: (() -> Void)? = nil) {
        
         if self.syncClient == nil {
             self.syncClient = AWSCognito.default()
         }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MMM-dd-HH-mm-ss"
-        var key = dateFormatter.string(from: Date())
+        var key = dateFormatter.string(from: dateTime)
         if UIApplication.shared.applicationState == .active {
             key = "active_" + key
         } else {
@@ -81,6 +109,12 @@ class DataManager {
         dataset?.synchronize().continue({ (task: AWSTask) -> AnyObject? in
             // my handler code here
             dump(task)
+            
+            if (completionBlock != nil) {
+                
+                completionBlock!()
+            }
+            
             return nil
         })
     }

@@ -59,8 +59,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var defaults:[String:AnyObject] = [:]
         for item in prefSpecifierArray {
+            
             if let dict = item as? [String: AnyObject] {
-                if let key = dict["Key"] as! String! {            
+               
+                if let key = dict["Key"] as! String! {
+                  
                     let defaultValue = dict["DefaultValue"] as? NSNumber
                     defaults[key] = defaultValue
                 }
@@ -73,8 +76,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        
         self.reachability = AWSKSReachability.toInternet()
         self.reachability.onReachabilityChanged = { reachabile in
-           
-            print(self.reachability.reachable)
+            
+            if self.reachability.reachable == true {
+                self.dataManager.uploadCache()
+            }
         }
     }
 }
